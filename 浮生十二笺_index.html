@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#29211f">
+<title>浮生十二笺｜古风女性人格测试</title>
+<style>
+:root{
+ --night:#29211f;--night2:#3a2b28;--paper:#f5eee2;--paper2:#eee3d2;
+ --ink:#43332d;--muted:#8d7969;--wine:#814746;--wine2:#a66058;
+ --gold:#b99b70;--line:#d9c8b1;--sage:#78806b;--white:#fffaf2;
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--night)}
+body{
+ margin:0;min-height:100vh;padding:22px 14px;display:grid;place-items:center;
+ color:var(--ink);font-family:"Noto Serif SC","Songti SC","STSong","SimSun",serif;
+ background:
+ radial-gradient(ellipse at 13% 12%,rgba(162,103,77,.24),transparent 32%),
+ radial-gradient(ellipse at 88% 88%,rgba(166,129,81,.18),transparent 34%),
+ linear-gradient(135deg,var(--night),var(--night2) 55%,#211a19);
+}
+button{font:inherit}
+.app{width:min(780px,100%);margin:auto}
+.frame{padding:10px;background:#e8ddcc;border:1px solid #b89b72;box-shadow:0 25px 80px #100b0a80}
+.sheet{
+ min-height:700px;position:relative;overflow:hidden;padding:28px clamp(18px,5.5vw,52px) 36px;
+ border:1px solid #c9b696;background:
+ linear-gradient(145deg,rgba(250,245,235,.97),rgba(239,228,210,.98)),
+ repeating-linear-gradient(0deg,transparent 0 5px,#6f503008 6px);
+}
+.sheet:before{content:"";position:absolute;pointer-events:none;width:270px;height:270px;border:1px solid #a45e5220;border-radius:50%;right:-130px;top:-130px;box-shadow:0 0 0 18px #a45e5208,0 0 0 40px #a45e5206}
+.sheet:after{content:"";position:absolute;pointer-events:none;width:180px;height:180px;border:1px solid #a45e5218;border-radius:50%;left:-110px;bottom:-110px;box-shadow:0 0 0 18px #a45e5206}
+.topbar{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;color:#947d66;font:10px/1.4 Arial,sans-serif;letter-spacing:2px}
+.seal{width:36px;height:36px;border:1px solid var(--wine2);color:var(--wine);display:grid;place-items:center;transform:rotate(45deg);margin:5px 8px 5px 0;font:17px serif}
+.seal span{transform:rotate(-45deg)}
+.view{display:none;position:relative;z-index:1;animation:appear .35s ease}
+.view.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+.eyebrow{text-align:center;color:#9b6e57;font-size:11px;letter-spacing:4px;margin:38px 0 12px}
+h1{font-weight:500;text-align:center;color:#4c332d;font-size:clamp(43px,9vw,72px);letter-spacing:9px;line-height:1.2;margin:0}
+h1 em{font-style:normal;color:var(--wine2)}
+.subtitle{text-align:center;color:#806d5e;font-size:14px;letter-spacing:3px;margin:14px 0 0}
+.rule{width:82px;height:1px;background:var(--gold);margin:25px auto;position:relative}
+.rule:after{content:"✦";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#f3eadc;color:var(--gold);font-size:11px;padding:0 8px}
+.cover-art{height:178px;max-width:500px;margin:0 auto 16px;position:relative;display:grid;place-items:center;overflow:hidden}
+.moon{width:142px;height:142px;border-radius:50%;background:linear-gradient(145deg,#ead8b8,#c5a17b);opacity:.72;box-shadow:0 0 0 15px #c5a66d12}
+.gate{position:absolute;bottom:0;width:86%;height:112px;border:1px solid #8d5b4d66;border-bottom:0;border-radius:130px 130px 0 0}
+.gate:before{content:"";position:absolute;inset:20px 25px 0;border:1px solid #8d5b4d45;border-bottom:0;border-radius:110px 110px 0 0}
+.blossom{position:absolute;color:#a45e52;font-size:22px;left:15%;top:28%}
+.blossom.b2{left:77%;top:18%;font-size:18px}.blossom.b3{left:27%;top:65%;font-size:16px}
+.cover-copy{text-align:center;color:#68584d;font-size:14px;line-height:2;margin:8px auto 0;max-width:530px}
+.primary{display:block;margin:27px auto 0;padding:14px 48px;min-width:220px;border:0;background:var(--wine);color:#fff7eb;letter-spacing:3px;box-shadow:0 5px 0 #562e30;cursor:pointer;transition:.18s}
+.primary:hover{background:#945653;transform:translateY(-2px)}.primary:active{transform:translateY(3px);box-shadow:0 2px 0 #562e30}
+.foot{text-align:center;color:#a08e7b;font:10px Arial,sans-serif;letter-spacing:1.2px;margin:24px 0 0;line-height:1.8}
+.cover-meta{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:18px auto 0}
+.pill{border:1px solid #d4c2a8;color:#8b705d;padding:6px 11px;font-size:11px;letter-spacing:1px}
+.progress-head{display:flex;justify-content:space-between;align-items:center;margin:34px 0 10px;color:#8c7562;font-size:12px;letter-spacing:2px}
+.progress{height:3px;background:#dfd2c0;overflow:hidden}.progress span{display:block;height:100%;width:8.33%;background:var(--wine2);transition:width .3s}
+.q-kicker{text-align:center;color:#a36d58;font-size:12px;letter-spacing:4px;margin:30px 0 11px}
+.question{font-size:clamp(21px,4vw,28px);font-weight:500;line-height:1.65;text-align:center;color:#48342e;margin:0 auto 10px;max-width:590px}
+.hint{text-align:center;color:#8b7969;font-size:13px;line-height:1.8;margin:0 auto 24px}
+.options{display:grid;gap:11px;max-width:600px;margin:0 auto}
+.option{width:100%;display:flex;align-items:flex-start;gap:13px;text-align:left;padding:14px 15px;background:#fffaf29c;border:1px solid #d9cbb8;color:#4d4038;cursor:pointer;transition:.16s;line-height:1.7;font-size:14px}
+.option:hover{border-color:#a66a5d;background:#fffaf2;transform:translateX(2px)}
+.option.selected{background:#f0e1d5;border-color:#99554d}
+.letter{flex:0 0 25px;width:25px;height:25px;border:1px solid #b99a78;color:#93634f;display:grid;place-items:center;font:11px Arial,sans-serif}
+.option.selected .letter{background:var(--wine);color:white;border-color:var(--wine)}
+.navrow{display:flex;justify-content:space-between;align-items:center;margin:24px auto 0;max-width:600px}
+.ghost{border:0;background:transparent;color:#927a67;padding:10px 2px;font-size:13px;cursor:pointer}.ghost:disabled{opacity:.25;cursor:default}
+.next{border:0;background:var(--wine);color:#fff5e9;padding:12px 27px;font-size:13px;letter-spacing:2px;cursor:pointer}.next:disabled{opacity:.35;cursor:not-allowed}
+.result-kicker{text-align:center;margin:34px 0 10px;color:#9b6b54;font-size:11px;letter-spacing:4px}
+.result-title{text-align:center;font-size:clamp(34px,7vw,53px);letter-spacing:5px;color:#743d3d;margin:0 0 7px;font-weight:500}
+.result-sub{text-align:center;color:#806d5d;letter-spacing:2px;font-size:13px;margin:0}
+.result-emblem{width:100px;height:100px;border:1px solid #a77b5a;border-radius:50%;display:grid;place-items:center;margin:22px auto;color:#8d4e48;font-size:38px;background:radial-gradient(circle,#f7ead9,#e7d5bd);box-shadow:0 0 0 7px #c5a66d12}
+.result-desc{max-width:580px;margin:0 auto;color:#55463d;font-size:14px;line-height:2;text-align:justify}
+.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:19px auto}
+.tag{padding:6px 12px;border:1px solid #cbb69d;color:#8c604e;font-size:11px;letter-spacing:1px}
+.result-panel{max-width:580px;margin:13px auto 0;padding:16px 18px;background:#fffbf3a8;border:1px solid #d9cbb8}
+.panel-label{font-size:10px;color:#a06f59;letter-spacing:3px;margin-bottom:8px}
+.panel-text{font-size:13px;color:#66564a;line-height:1.95;margin:0}
+.secondary-box{max-width:580px;margin:14px auto 0;padding:14px 18px;background:#e9e2d5;border-left:3px solid #9b7861}
+.secondary-name{font-size:16px;color:#704b40;margin-bottom:5px}.secondary-desc{font-size:12px;line-height:1.8;color:#786858;margin:0}
+.score-list{display:grid;gap:9px}
+.score-row{display:grid;grid-template-columns:82px 1fr 22px;gap:9px;align-items:center;font-size:11px;color:#766657}
+.score-track{height:5px;background:#e7dbca}.score-fill{height:100%;background:#a65d52}
+.result-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:23px 0 0}
+.outline{border:1px solid #9c7460;color:#805744;background:transparent;padding:11px 17px;font-size:12px;letter-spacing:1px;cursor:pointer;transition:.15s}
+.outline:hover{background:#efe1d1}
+.disclaimer{text-align:center;color:#a08e7b;font-size:10px;line-height:1.7;margin:20px 0 0}
+.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);background:#342825;color:#fff4e7;padding:10px 16px;font-size:12px;opacity:0;pointer-events:none;transition:.2s;z-index:9}
+.toast.show{opacity:1}
+@media(max-width:540px){
+ body{padding:0;background:#2a2220}.app{width:100%}.frame{padding:6px;border-left:0;border-right:0}
+ .sheet{min-height:100vh;padding:22px 17px 30px}.cover-art{height:150px}.question{font-size:21px}
+ .option{padding:12px}.result-desc{text-align:left}.result-panel{padding:14px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+ <main class="frame"><div class="sheet">
+  <div class="topbar"><span>FUSHENG SHI'ER JIAN · ANCIENT PERSONALITY QUIZ</span><div class="seal"><span>笺</span></div></div>
+
+  <section id="intro" class="view active">
+   <div class="eyebrow">一场关于性情与人生的古风探索</div>
+   <h1>浮生<em>十二</em>笺</h1>
+   <p class="subtitle">如果你生活在古代，你会是哪一种女子？</p>
+   <div class="rule"></div>
+   <div class="cover-art" aria-hidden="true">
+    <div class="moon"></div><div class="gate"></div>
+    <span class="blossom">✿</span><span class="blossom b2">✿</span><span class="blossom b3">✿</span>
+   </div>
+   <p class="cover-copy">十二种人生，十二种性情。<br>循着十二维度之外的日常抉择，遇见那个藏在你心底的古代身影。<br>不问出身，不判命运，只看你如何选择。</p>
+   <div class="cover-meta"><span class="pill">12道情境选择</span><span class="pill">12种人物画像</span><span class="pill">双重人格结果</span></div>
+   <button class="primary" id="startBtn">展笺 · 开始测试</button>
+   <p class="foot">约3—5分钟 · 无需登录 · 答案仅在本页计算</p>
+  </section>
+
+  <section id="quiz" class="view">
+   <div class="progress-head"><span>浮生问笺 · <b id="qNum">01</b> / 12</span><span id="percent">8%</span></div>
+   <div class="progress"><span id="progressBar"></span></div>
+   <div class="q-kicker" id="qKicker"></div>
+   <h2 class="question" id="questionText"></h2>
+   <p class="hint" id="questionHint">凭直觉选择最接近你的答案，不必反复斟酌。</p>
+   <div class="options" id="options"></div>
+   <div class="navrow"><button class="ghost" id="prevBtn">← 上一题</button><button class="next" id="nextBtn" disabled>下一笺 →</button></div>
+  </section>
+
+  <section id="result" class="view">
+   <div class="result-kicker">你的专属人物笺 · PERSONALITY REVEALED</div>
+   <h2 class="result-title" id="resultTitle"></h2>
+   <p class="result-sub" id="resultSubtitle"></p>
+   <div class="result-emblem" id="resultEmblem">✦</div>
+   <p class="result-desc" id="resultDesc"></p>
+   <div class="tags" id="resultTags"></div>
+   <div class="result-panel"><div class="panel-label">天赋与优势</div><p class="panel-text" id="strengthText"></p></div>
+   <div class="result-panel"><div class="panel-label">不易察觉的另一面</div><p class="panel-text" id="blindText"></p></div>
+   <div class="result-panel"><div class="panel-label">情感与关系</div><p class="panel-text" id="loveText"></p></div>
+   <div class="secondary-box"><div class="panel-label">与你相伴的第二人格</div><div class="secondary-name" id="secondaryName"></div><p class="secondary-desc" id="secondaryDesc"></p></div>
+   <div class="result-panel"><div class="panel-label">十二种气质 · 你的选择分布</div><div class="score-list" id="scoreList"></div></div>
+   <div class="result-panel"><div class="panel-label">送给你的一句话</div><p class="panel-text" id="mottoText"></p></div>
+   <div class="result-actions">
+    <button class="outline" id="saveCardBtn">保存结果卡</button>
+    <button class="outline" id="shareBtn">分享我的结果</button>
+    <button class="outline" id="restartBtn">↻ 重新测试</button>
+   </div>
+   <p class="disclaimer">本测试为原创娱乐与自我探索内容，不构成心理诊断或命运判断。<br>答案只在当前页面内用于计算，不会上传或保存到服务器。</p>
+  </section>
+ </div></main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const types = [
+ {id:0,name:"明珠贵女",sub:"温婉有度 · 自有锋芒",mark:"❖",tags:["心思细腻","重情重义","温柔坚定","自有分寸"],
+  desc:"你像一枚被妥善珍藏的明珠，温润却不柔弱，懂得体察人心，也有自己的原则。你不急于在人群中证明什么，却总能在关键时刻做出清醒而妥帖的选择。你的温柔不是退让，而是一种有分寸的力量。",
+  strength:"你善于观察细节、照顾关系，也懂得在复杂的人情往来中保持体面。你能把事情安排得周全，让身边的人感到可靠。真正重要的事情上，你比旁人想象得更有主见。",
+  blind:"你有时太在意他人的感受，习惯先把场面照顾好，再处理自己的委屈。久而久之，别人可能忘了你也需要被理解。记得，表达需求不是失礼，拒绝也不代表薄情。",
+  love:"你期待稳定、尊重与细水长流。你不容易被华丽承诺打动，更看重对方是否言行一致、能否在细节里给你安全感。适合你的关系，是彼此珍惜，也彼此保有边界。",
+  motto:"温柔自有力量，端庄不必隐藏锋芒。"},
+ {id:1,name:"霜刃侠女",sub:"清醒独立 · 不困于俗",mark:"⚔",tags:["行动果决","边界清晰","敢爱敢恨","自由至上"],
+  desc:"你像一柄藏在素鞘中的霜刃，平日不争，关键时刻却从不退让。你不喜欢被安排，也不愿为了迎合谁而改变方向。比起等待别人撑伞，你更相信自己有能力走过风雨。",
+  strength:"你行动力强，遇事敢于承担，也有清楚的边界意识。面对不合理的要求，你能及时说不；面对真正想做的事，你愿意迈出第一步。你的坦荡和勇气，是很珍贵的底气。",
+  blind:"你习惯独自消化困难，不愿让人看见脆弱。有时过于快速地切断关系，也可能错过一次坦诚沟通的机会。独立不等于凡事独撑，求助也可以是一种力量。",
+  love:"你需要平等而有空间的关系，欣赏有担当、坦荡且尊重独立的人。你不喜欢试探、束缚和反复拉扯。真正让你动心的，是并肩同行，而不是谁依附谁。",
+  motto:"愿你有转身的勇气，也有停留的自由。"},
+ {id:2,name:"兰台谋士",sub:"洞察人心 · 运筹帷幄",mark:"策",tags:["逻辑敏锐","善于布局","沉着克制","长线思维"],
+  desc:"你像一位坐在兰台灯下的谋士，习惯从细节中寻找线索，在局势未明时先为自己留好余地。你不急着表达立场，因为你更在意看清全貌，再做有效的选择。",
+  strength:"你擅长分析、规划和权衡利弊。别人看到眼前一步，你往往已经想过后面几种可能。面对复杂局面，你能迅速抓住重点，把混乱的信息整理成可执行的方案。",
+  blind:"你容易想得太多、准备得太久，有时把每一次选择都当成必须算准的棋局。过度控制风险，也可能让机会悄悄溜走。允许自己在不完美的信息中先迈一步。",
+  love:"你看重精神交流与价值观契合。比起短暂热烈，你更愿意经营可靠、能共同成长的关系。你需要一个愿意沟通、尊重思考，也能让你放下防备的人。",
+  motto:"看清世事之后，仍要为自己留一份真心。"},
+ {id:3,name:"山野医者",sub:"柔软有光 · 自有韧性",mark:"☘",tags:["共情力强","温厚包容","内心坚韧","珍惜日常"],
+  desc:"你像住在山野间的医者，懂得万物都有自己的节律。你愿意倾听，也常常成为别人疲惫时想起的人。你的力量不在声势，而在经历风雨之后，仍愿意保留善意。",
+  strength:"你能敏锐察觉周围人的状态，愿意倾听，也善于安抚情绪。你重视生活中的细小幸福，能在平凡日常里找到安定感。你不一定最耀眼，却常常是让人安心的存在。",
+  blind:"你容易把别人的难处放在自己前面，甚至把照顾别人变成习惯性责任。请记住，善良不是无限承担。你也有疲惫、拒绝和被照顾的权利。",
+  love:"你期待温暖、踏实、有回应的关系。你会记住细节，也愿意陪伴对方走过低谷。适合你的不是只会接受照顾的人，而是同样愿意体贴你、回应你的人。",
+  motto:"愿你渡人时，也记得为自己留一盏灯。"},
+ {id:4,name:"锦书才女",sub:"敏感丰盈 · 灵魂有诗",mark:"✧",tags:["想象丰沛","审美独到","感受细腻","向往浪漫"],
+  desc:"你像一位执笔写锦书的才女，常常能从寻常景物里看见别人忽略的意味。你有自己的精神天地，重视感受、表达与美，也不愿把人生过成一张只有标准答案的清单。",
+  strength:"你感受力强，富有想象力和审美眼光，能捕捉细节里的情绪与美感。你擅长表达，也能为平淡的日子赋予意义。你拥有一座丰富的内心花园。",
+  blind:"你有时容易沉浸在想象和情绪里，期待别人自然读懂你的心思。现实不总是诗，也不总能给出恰好的回应。把感受说出来，把想法做起来，会让你的才情更有力量。",
+  love:"你向往灵魂共鸣，也在意细节里的浪漫。你希望被认真理解，而不只是被热闹追求。让真实的相处走在想象前面，好的关系不必时时像诗，也能在平凡里长久。",
+  motto:"心有繁花，也要一步一步走过人间。"},
+ {id:5,name:"凤仪掌事",sub:"格局沉稳 · 自有章法",mark:"凤",tags:["统筹全局","责任感强","决断有度","气场从容"],
+  desc:"你像一位能镇住场面的掌事之人，遇到纷杂事务时不容易慌乱。你有组织能力，也愿意承担责任，知道什么时候该听、什么时候该定。你追求的不只是赢，而是让事情真正走向妥当。",
+  strength:"你擅长统筹资源、协调关系和推进目标。面对多人、多事、多种意见时，你能抓住关键并做出决定。别人容易把重要事情交给你，因为你给人一种稳得住局面的感觉。",
+  blind:"你可能不自觉地把责任揽得太多，也容易对效率和结果要求过高。并不是所有事情都必须由你掌舵，适当授权、允许别人用自己的方式完成，也是一种成熟。",
+  love:"你欣赏成熟、有担当、能并肩商量的人。你不需要被仰望，更希望被尊重。关系里最重要的是互相支持，而不是一方永远安排、一方永远配合。",
+  motto:"真正的掌局者，也懂得给自己留白。"},
+ {id:6,name:"烟雨行者",sub:"好奇自在 · 心向远方",mark:"☂",tags:["探索欲强","适应力好","不惧变化","热爱体验"],
+  desc:"你像一位行走在烟雨山河间的旅人，对未知始终保留好奇。你不太愿意被固定轨迹定义，喜欢亲自去看、去试、去经历。比起一眼望到头的安稳，你更在意生命是否仍有新鲜的风。",
+  strength:"你适应力强，愿意尝试新事物，也能在变化中找到机会。你不容易被单一环境困住，善于从不同经历里汲取灵感。你的开放，让人生拥有更多可能。",
+  blind:"你可能容易对重复和琐碎失去耐心，计划常常被新的兴趣打断。自由也需要一点持续力。给热爱留出长期投入的空间，你会走得比想象中更远。",
+  love:"你希望关系里有陪伴，也有各自的天地。你喜欢能一起探索世界、分享新鲜体验的人，不适合过度控制或缺少变化的相处模式。",
+  motto:"山河很远，心不必被困在一处。"},
+ {id:7,name:"赤心将门",sub:"忠义担当 · 护所珍重",mark:"戟",tags:["重诺守信","行动可靠","勇于担当","保护欲强"],
+  desc:"你像出身将门的赤心之人，认定的事情便愿意负责到底。你重视承诺，也看重人与人之间的义气。遇到重要的人和事，你会站出来，而不是只在旁边说几句漂亮话。",
+  strength:"你执行力强，遇事不轻易退缩，答应的事情会认真完成。你对重要的人有保护意识，也愿意在关键时刻承担压力。你的可靠不是口头承诺，而是实实在在的行动。",
+  blind:"你可能把坚强当成默认职责，觉得自己必须扛住一切。也容易因为太讲义气而忽略自身界限。守护别人之前，也要判断这份责任是否真的属于你。",
+  love:"你重视忠诚、承诺和行动。比起甜言蜜语，你更相信关键时刻是否站在一起。适合你的关系，是彼此守护，而不是只有你一个人冲锋。",
+  motto:"心有所守，便不惧风雨。"},
+ {id:8,name:"琉璃商女",sub:"精明通透 · 善于经营",mark:"◇",tags:["务实敏锐","资源整合","目标清楚","价值意识"],
+  desc:"你像一位行走市井与商道之间的琉璃商女，懂得观察需求、判断时机，也知道如何把手中的资源变成机会。你不排斥现实，反而愿意认真经营自己的生活与未来。",
+  strength:"你务实、敏锐，善于发现问题背后的机会，也能把想法转化为具体行动。你对时间、资源和价值有判断力，不容易被表面热闹牵着走。",
+  blind:"你有时会过度计算得失，把每件事都看成投入与回报。人与人的关系并非都能量化，有些体验和情感的价值，需要时间才能显现。",
+  love:"你看重可靠、坦诚和共同经营生活的能力。你希望对方有责任感，也愿意一起规划未来。你不追求虚浮排场，更在意日子能不能过得踏实、有盼头。",
+  motto:"把日子经营好，也把自己活成珍贵之物。"},
+ {id:9,name:"青竹隐士",sub:"淡泊自洽 · 清醒自在",mark:"竹",tags:["内心安定","独处充电","不慕喧哗","自我完整"],
+  desc:"你像一株生在幽谷的青竹，不急着争春，也不需要时时被看见。你有自己的节奏和判断，不太容易被外界评价左右。比起热闹的人生，你更珍惜内心安稳、清楚而自在的生活。",
+  strength:"你独立、沉静，能够享受独处，也有较强的自我调节能力。你不容易被流行和他人的期待牵着走，知道什么对自己真正重要。",
+  blind:"你可能因为习惯独处而减少表达，让别人难以靠近；也可能把不争误解成不必争取。适度走向人群、主动争取机会，并不会破坏你的自在。",
+  love:"你需要尊重空间、节奏合拍的关系。你不喜欢过度黏连和情绪拉扯，更珍惜平静、真诚、有默契的陪伴。亲密不必喧闹，也可以安静而深刻。",
+  motto:"不逐浮华，亦不辜负心中所爱。"},
+ {id:10,name:"月下知音",sub:"善解人意 · 自带光彩",mark:"月",tags:["表达自然","善于共情","人际敏锐","气氛感知"],
+  desc:"你像月下抚琴的知音，懂得倾听，也懂得回应。你能察觉场合的情绪变化，常常知道怎样让对话继续、让关系舒展。你的魅力不一定张扬，却容易让人感到被理解。",
+  strength:"你沟通能力好，善于连接不同的人，也能在交流中发现彼此的共同点。你对情绪和氛围敏锐，懂得表达欣赏、化解尴尬，让关系自然流动。",
+  blind:"你可能太在意互动是否和谐，习惯扮演那个让大家舒服的人。别为了维持气氛而隐藏真实想法。真正的知音，也应该听得见你的不同意见。",
+  love:"你重视交流、回应和情绪上的理解。你希望对方愿意分享，也愿意认真听你说话。适合你的关系，是彼此欣赏、能谈心，也能自在沉默。",
+  motto:"愿你遇见知音，也不丢失自己的声音。"},
+ {id:11,name:"清梧匠心",sub:"专注创造 · 精益求精",mark:"✧",tags:["专注投入","审美讲究","耐心打磨","创造力强"],
+  desc:"你像一位在清梧树下制器作画的匠人，对喜欢的事情有耐心，也愿意反复打磨。你不一定追求热闹的掌声，更在意作品是否真正达到心中的标准。你的世界，常常在专注中变得丰盛。",
+  strength:"你有持续投入的能力，重视细节和品质，能把兴趣发展成真正的本领。你不怕从基础开始，也愿意为一件事长期积累。你的成果往往来自别人看不见的认真。",
+  blind:"你可能对自己过于苛刻，迟迟不愿交出尚未完美的成果；也容易沉浸在自己的标准里，忽略协作和外界反馈。完成，有时比完美更重要。",
+  love:"你喜欢真诚、稳定、尊重彼此热爱的人。你不一定擅长华丽表达，但会用行动和细节表达在意。你希望自己的认真被看见，也愿意欣赏对方的专长。",
+  motto:"一事一物皆可成心意，慢慢打磨，自有光华。"}
+];
+
+const questions = [
+ {k:"第一笺 · 初入人间",q:"初入一场陌生的宴席，你发现席间气氛微妙。你会先做什么？",a:[
+  [0,"先留意每个人的神色与言语，再决定如何融入。"],[3,"主动照顾落单的人，让场面不至于冷清。"],[6,"不急着入席，先看看这场宴会之外还有什么新鲜事。"],[9,"找个清静的位置，按自己的节奏观察四周。"]]},
+ {k:"第二笺 · 临事抉择",q:"有人误会了你，并在众人面前说了不中听的话。你更可能？",a:[
+  [1,"当场说明事实，不让误会继续发酵。"],[4,"先把感受理清，再用恰当的方式表达。"],[7,"不回避，直接面对问题，也要求对方讲清楚。"],[10,"先缓和场面，再找机会好好沟通。"]]},
+ {k:"第三笺 · 心之所向",q:"若能在古代选择一种生活，你最向往哪一种？",a:[
+  [2,"藏书读史，参与谋划，在复杂世事中找到答案。"],[5,"主持一方事务，安排人事，让事情井井有条。"],[8,"经营自己的铺面与事业，靠本事创造天地。"],[11,"拥有一间工作室，做喜欢的器物或作品。"]]},
+ {k:"第四笺 · 人情冷暖",q:"你珍视的人遇到难处，却没有开口求助。你会？",a:[
+  [3,"先倾听，陪对方把情绪慢慢说出来。"],[6,"邀对方出去走走，换个环境，也许会有新办法。"],[9,"给对方空间，等他愿意开口时再陪伴。"],[0,"默默把能做的事安排好，不让对方有负担。"]]},
+ {k:"第五笺 · 价值取舍",q:"眼前有一个难得的机会，但需要你放弃一部分熟悉的生活。你会？",a:[
+  [4,"听听内心真正向往什么，不想辜负自己的热爱。"],[7,"如果值得，就做好准备承担代价，果断争取。"],[10,"先了解相关的人与资源，看看能否找到共赢方式。"],[1,"只要是自己真正想要的，就愿意试一试。"]]},
+ {k:"第六笺 · 关系之道",q:"你觉得一段长久关系最重要的基础是什么？",a:[
+  [5,"彼此尊重、共同承担，遇事能商量也能做决定。"],[8,"价值观相近，愿意一起经营现实生活。"],[11,"欣赏彼此的热爱，能尊重对方专注的世界。"],[2,"精神交流与价值观契合，能够共同成长。"]]},
+ {k:"第七笺 · 风雨忽至",q:"计划突然被打乱，事情比预想中棘手。你通常如何应对？",a:[
+  [6,"先稳住心态，把变化当成一次新的探索。"],[9,"暂时退一步，理清自己真正需要处理的事。"],[0,"稳住节奏，尽量让局面保持体面与秩序。"],[3,"先安顿好自己和身边人的情绪，再慢慢处理。"]]},
+ {k:"第八笺 · 秘密心事",q:"如果别人只能记住你身上的一种特质，你希望是哪一种？",a:[
+  [7,"可靠、有担当，关键时刻值得托付。"],[10,"善解人意，能让相处变得舒服自在。"],[1,"独立勇敢，始终忠于自己的选择。"],[4,"有灵气、有才情，心里一直有诗。"]]},
+ {k:"第九笺 · 人生一隅",q:"在一个难得清闲的午后，你最想把时间花在哪里？",a:[
+  [8,"盘点计划，打理手边的事务，为未来做些准备。"],[11,"做一件喜欢的手工或创作，沉浸其中。"],[2,"读书思考，整理信息，规划接下来的事。"],[5,"安排一场小聚或雅集，让大家各得其所。"]]},
+ {k:"第十笺 · 进退之间",q:"当你发现一件事已经不适合自己，却投入了很多时间，你会？",a:[
+  [9,"接受变化，放下执念，把生活还给自己。"],[0,"慎重权衡，也顾及相关的人，再妥善调整。"],[3,"先照顾好自己的状态，不勉强硬撑。"],[6,"及时转身，去看看别的道路还有什么可能。"]]},
+ {k:"第十一笺 · 心有所守",q:"面对一个重要承诺，你最看重什么？",a:[
+  [10,"彼此说清楚、常沟通，让承诺有真实的回应。"],[1,"说到做到，若不合适也坦诚说明，绝不敷衍。"],[4,"承诺要有真心，也要保留情感中的细腻与理解。"],[7,"既然答应，就认真承担，不轻易半途而废。"]]},
+ {k:"第十二笺 · 终章自答",q:"走过许多故事之后，你最想送给未来自己的话是？",a:[
+  [11,"愿我始终保有热爱，认真做出属于自己的作品。"],[2,"愿我看清世事之后，仍有勇气相信自己的判断。"],[5,"愿我有能力照拂所爱，也懂得为自己留白。"],[8,"愿我把日子经营好，也把自己活成珍贵之物。"]]}
+];
+
+let current=0;
+let answers=Array(questions.length).fill(null);
+const $=id=>document.getElementById(id);
+function showView(id){document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));$(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
+function toast(msg){const el=$("toast");el.textContent=msg;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),2200);}
+function renderQuestion(){
+ const q=questions[current],chosen=answers[current];
+ $("qNum").textContent=String(current+1).padStart(2,"0");
+ $("percent").textContent=Math.round((current+1)/questions.length*100)+"%";
+ $("progressBar").style.width=((current+1)/questions.length*100)+"%";
+ $("qKicker").textContent=q.k;$("questionText").textContent=q.q;
+ $("options").innerHTML="";
+ q.a.forEach((item,i)=>{
+  const b=document.createElement("button");b.type="button";b.className="option"+(chosen===i?" selected":"");
+  const letter=document.createElement("span");letter.className="letter";letter.textContent="ABCD"[i];
+  const text=document.createElement("span");text.textContent=item[1];
+  b.append(letter,text);b.addEventListener("click",()=>{answers[current]=i;renderQuestion();});
+  $("options").appendChild(b);
+ });
+ $("prevBtn").disabled=current===0;
+ $("nextBtn").disabled=chosen===null;
+ $("nextBtn").textContent=current===questions.length-1?"展开我的人物笺":"下一笺 →";
+}
+function calculate(){
+ const scores=Array(12).fill(0),last=Array(12).fill(-1);
+ answers.forEach((answer,qi)=>{const typeId=questions[qi].a[answer][0];scores[typeId]++;last[typeId]=qi;});
+ const ranked=types.map(t=>({type:t,score:scores[t.id],last:last[t.id]}))
+  .sort((a,b)=>b.score-a.score||b.last-a.last);
+ const main=ranked[0],second=ranked[1];
+ $("resultTitle").textContent=main.type.name;
+ $("resultSubtitle").textContent=main.type.sub;
+ $("resultEmblem").textContent=main.type.mark;
+ $("resultDesc").textContent=main.type.desc;
+ $("resultTags").innerHTML=main.type.tags.map(t=>`<span class="tag">${t}</span>`).join("");
+ $("strengthText").textContent=main.type.strength;
+ $("blindText").textContent=main.type.blind;
+ $("loveText").textContent=main.type.love;
+ $("mottoText").textContent=main.type.motto;
+ $("secondaryName").textContent=second.type.name+" · "+second.type.sub;
+ $("secondaryDesc").textContent="你的选择中也有"+second.type.name+"的气质："+second.type.tags.slice(0,3).join("、")+"。"+second.type.desc;
+ const max=Math.max(...scores,1);
+ $("scoreList").innerHTML=ranked.map(x=>`<div class="score-row"><span>${x.type.name}</span><div class="score-track"><div class="score-fill" style="width:${x.score/max*100}%"></div></div><b>${x.score}</b></div>`).join("");
+ window.currentResult={main:main.type,second:second.type,scores};
+ showView("result");
+}
+function makeShareCard(){
+ const data=window.currentResult;if(!data)return null;
+ const c=document.createElement("canvas");c.width=1080;c.height=1350;
+ const x=c.getContext("2d");
+ const bg=x.createLinearGradient(0,0,1080,1350);bg.addColorStop(0,"#f7f0e4");bg.addColorStop(1,"#e9dcc8");
+ x.fillStyle=bg;x.fillRect(0,0,1080,1350);
+ x.strokeStyle="#b99b70";x.lineWidth=3;x.strokeRect(38,38,1004,1274);x.strokeStyle="#d4c2a8";x.lineWidth=1;x.strokeRect(55,55,970,1240);
+ x.fillStyle="#8e745d";x.font="24px serif";x.textAlign="center";x.fillText("FUSHENG SHI'ER JIAN · PERSONALITY LETTER",540,125);
+ x.fillStyle="#9b6b54";x.font="28px serif";x.fillText("你的专属人物笺",540,210);
+ x.fillStyle="#743d3d";x.font="bold 82px serif";x.fillText(data.main.name,540,350);
+ x.fillStyle="#806d5d";x.font="30px serif";x.fillText(data.main.sub,540,415);
+ x.beginPath();x.arc(540,545,74,0,Math.PI*2);x.fillStyle="#ead9bf";x.fill();x.strokeStyle="#b99b70";x.lineWidth=2;x.stroke();
+ x.fillStyle="#8d4e48";x.font="64px serif";x.fillText(data.main.mark,540,568);
+ x.fillStyle="#55463d";x.font="27px serif";x.textAlign="left";
+ const wrap=(txt,xx,yy,maxWidth,lineHeight,maxLines)=>{
+   let line="",lines=[];
+   for(const ch of txt){const test=line+ch;if(x.measureText(test).width>maxWidth&&line){lines.push(line);line=ch;}else line=test;}
+   if(line)lines.push(line);lines.slice(0,maxLines).forEach((ln,i)=>x.fillText(ln,xx,yy+i*lineHeight));
+ };
+ wrap(data.main.desc,125,690,830,48,4);
+ x.fillStyle="#9b6b54";x.font="23px serif";x.fillText("你的性格关键词",125,920);
+ x.fillStyle="#805744";x.font="25px serif";x.fillText(data.main.tags.join("  ·  "),125,970);
+ x.fillStyle="#9b6b54";x.font="23px serif";x.fillText("第二人格",125,1055);
+ x.fillStyle="#55463d";x.font="30px serif";x.fillText(data.second.name+" · "+data.second.sub,125,1105);
+ x.fillStyle="#7d6858";x.font="24px serif";x.textAlign="center";x.fillText(data.main.motto,540,1205);
+ x.fillStyle="#9b8a78";x.font="18px serif";x.fillText("如果你生活在古代，你会是哪一种女子？",540,1260);
+ return c;
+}
+async function saveCard(){
+ const c=makeShareCard();if(!c)return;
+ c.toBlob(blob=>{if(!blob){toast("图片生成失败，请重试");return;}
+  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="浮生十二笺_"+window.currentResult.main.name+".png";a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast("结果卡已生成，请查看保存的图片");
+ },"image/png");
+}
+async function shareResult(){
+ const data=window.currentResult;if(!data)return;
+ const text=`我在「浮生十二笺」测出的古风人格是：${data.main.name}（${data.main.sub}）。第二人格：${data.second.name}。你如果生活在古代，会是哪一种女子？`;
+ const c=makeShareCard();
+ if(c&&navigator.share&&navigator.canShare){
+  c.toBlob(async blob=>{
+   try{const file=new File([blob],"浮生十二笺人物结果.png",{type:"image/png"});if(navigator.canShare({files:[file]})){await navigator.share({title:"浮生十二笺",text,files:[file]});}
+   else{await navigator.share({title:"浮生十二笺",text});}
+   }catch(e){}
+  },"image/png");
+ }else if(navigator.clipboard&&navigator.clipboard.writeText){
+  try{await navigator.clipboard.writeText(text);toast("结果文案已复制，可以分享给朋友");}catch(e){toast("请使用“保存结果卡”分享图片");}
+ }else{toast("请使用“保存结果卡”保存图片后分享");}
+}
+$("startBtn").addEventListener("click",()=>{current=0;answers.fill(null);showView("quiz");renderQuestion();});
+$("prevBtn").addEventListener("click",()=>{if(current>0){current--;renderQuestion();}});
+$("nextBtn").addEventListener("click",()=>{if(answers[current]===null)return;if(current<questions.length-1){current++;renderQuestion();}else calculate();});
+$("restartBtn").addEventListener("click",()=>{current=0;answers.fill(null);window.currentResult=null;showView("intro");});
+$("saveCardBtn").addEventListener("click",saveCard);
+$("shareBtn").addEventListener("click",shareResult);
+</script>
+</body>
+</html>
